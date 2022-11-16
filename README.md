@@ -36,6 +36,7 @@ This repository contains 3 main components:
 
 3. Create `.env` file using `.env_example` it should look something like this:
     ```bash
+    # 这边已经配置好了，在.env里查看，私钥使用python web3.eth.Accounts.create()生成
     export PRIVATE_KEY='0xc...'
     export NODE1_PRIVATE_KEY='0xc...'
     export NODE2_PRIVATE_KEY='0xc...'
@@ -46,6 +47,7 @@ This repository contains 3 main components:
     
 5. Install [ganache-cli](https://www.npmjs.com/package/ganache-cli) which is needed for local development.
     ```bash
+    #已安装
     npm install -g ganache-cli
     ```
     or
@@ -55,7 +57,12 @@ This repository contains 3 main components:
 
 6. Deploy contracts using brownie
     ```bash
-    brownie run deploy -I
+    # 先启动虚拟环境
+    source venv/bin/activate
+    
+    # 直接执行就可以，环境都已经配置好了，智能合约依赖通过brownie pm包管理进行安装
+    # brownie run deploy -I 别用这条，会自动执行用户路径的brownie，下面这条执行虚拟环境下的 brownie
+    ./venv/bin/brownie run deploy -I
     ```
     This will start a fresh [Ganache](https://www.trufflesuite.com/ganache) instance in the background and open interactive console.   
     Once the console is running you can create new plan by typing into console:

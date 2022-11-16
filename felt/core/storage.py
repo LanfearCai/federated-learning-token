@@ -6,6 +6,11 @@ import httpx
 
 from felt.core.web3 import decrypt_bytes
 
+# import ipfsapi
+
+
+# client = ipfsapi.Client('192.168.1.171', 5001)
+
 
 def ipfs_upload_file(file):
     """Upload file to IPFS using web3.storage.
@@ -23,6 +28,13 @@ def ipfs_upload_file(file):
         files={"file": file},
         timeout=None,
     )
+    # print(file)
+    # f = open('model.txt', 'w')
+    # f.write(file)
+    # f.close()
+    # res = client.add('model.txt')
+    # print(res)
+    # return res
 
 
 def ipfs_download_file(cid, output_path=None, secret=None):
@@ -35,13 +47,14 @@ def ipfs_download_file(cid, output_path=None, secret=None):
     Returns:
         Response: httpx response object
     """
-    for _ in range(5):
+    for _ in range(50):
         try:
-            res = httpx.get(f"https://{cid}.ipfs.dweb.link/", timeout=10.0)
+            res = httpx.get(f"https://{cid}.ipfs.dweb.link/", timeout=60.0)
+            # res = client.cat(cid)
         except httpx.ReadTimeout:
             print("Connection timeout - retry")
             time.sleep(5)
-
+    # content = res
     content = res.content
     if secret is not None:
         content = decrypt_bytes(res.content, secret)
